@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapLibre on GitHub Pages</title>
+    <!-- MapLibreのCSSとJSを読み込み -->
+    <link rel='stylesheet' href='https://unpkg.com' />
+    <script src='https://unpkg.com'></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+    // 地図の初期化
+    const map = new maplibreGl.Map({
+        container: 'map',
+        style: {
+            version: 8,
+            sources: {
+                // 地理院タイルの設定
+                gsi: {
+                    type: 'raster',
+                    tiles: ['https://gsi.go.jp{z}/{x}/{y}.png'],
+                    tileSize: 256,
+                    attribution: "<a href='https://gsi.go.jp' target='_blank'>国土地理院</a>"
+                }
+            },
+            layers: [
+                {
+                    id: 'gsi-layer',
+                    type: 'raster',
+                    source: 'gsi',
+                    minzoom: 0,
+                    maxzoom: 18
+                }
+            ]
+        },
+        center: [139.6917, 35.6895], // 初期位置 [経度, 緯度] (東京)
+        zoom: 10 // 初期ズームレベル
+    });
+
+    // ナビゲーションコントロール（拡大・縮小ボタン）の追加
+    map.addControl(new maplibreGl.NavigationControl());
+</script>
+
+</body>
+</html>
